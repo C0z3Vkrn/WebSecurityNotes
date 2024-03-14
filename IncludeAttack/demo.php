@@ -1,4 +1,4 @@
 <?php
-    include($_GET['action']);
+include($_GET['action']);
 ?>
 
