@@ -51,6 +51,14 @@ Content-Length: 50
 <?php echo file_get_contents("../../flag.txt");?>
 ```
 
+Where, statements
+
+```php+HTML
+file_get_contents('php://input');
+```
+
+The argument string itself used to echo any POST.
+
 #### 2.Cooperate with upload attack
 
 Among the file upload vulnerabilities, we have the Trojan virus:
