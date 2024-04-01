@@ -102,6 +102,8 @@ php://filter/read=convert.base64-encode/resource=../../flag.txt
 
 我们在GET参数中直接注入我们想让服务器执行的php脚本, 将特殊字符替换为 %ord(byte)的格式来解析从而避免闭合问题等.
 
+注意GET参数必须是url编码格式下的php代码.
+
 ###### GET 参数
 
 ```http
